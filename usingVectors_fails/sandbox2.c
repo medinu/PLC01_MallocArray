@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <cstdlib>
 
 int convertCharToLetterGrade(char grade)
 {
@@ -39,8 +40,7 @@ else
     return 'F';
 }
 
-void main()
-{
+int main(){
     char firstname[50];
     char lastname[50];
     int numPrevCourses;
@@ -63,7 +63,7 @@ void main()
     scanf("%d",&numPrevCourses);
   
 
-/* Allocate dynamic memory for storing the grade */
+    /* Allocate dynamic memory for storing the grade */
     preGrade = (int *) malloc(sizeof(int)*numPrevCourses+1);
   
     for(courseIx = 0; courseIx < numPrevCourses; ++courseIx){
@@ -95,4 +95,6 @@ void main()
 
     gpa = exavg(preGrade);
     printf("Your latest GPA is: %d\n",gpa);
-}
+
+    return 0;
+};

@@ -24,30 +24,28 @@ double getArrayAverage(int32_t *a, int n){
     return sum; 
 };
 
-int convertCharToLetterGrade(void* grade){
-    int a;
-    switch (*(char*)grade){
+void convertCharToLetterGrade(char* grade){
+    switch (*grade){
     case 'A': case 'a':
-        a = 4;
+        *grade = '4';
         break;
     case 'B': case 'b':
-        a = 3;
+        *grade = '3';
         break;
     case 'C': case 'c':
-        a = 2;
+        *grade = '2';
         break;
     case 'D': case 'd':
-        a = 1;
+        *grade = '1';
         break;
     case 'F': case 'f':
-        a = 0;
+        *grade = '0';
         break;
+    
     default:
         printf("Warning... Invalid Character... Recording an F.\n");
-        a = 0;
         break;
     }
-    return a;
 };
 
 enum LetterGrade getLetterGradeFromAverage(const double avg) {
@@ -71,24 +69,24 @@ int main()
     printf("You entered: %s \n", str_firstName); 
 
     char str_lastName[20];
-    printf("Please enter your last name: ");
+    printf("Please enter your lasst name: ");
     scanf(" %s", &str_lastName);
     printf("You entered: %s \n", str_lastName);    
 
     int32_t numPrevCourses;
     printf("Enter number of previous courses: ");
     scanf(" %d", &numPrevCourses);
-    printf("You entered: %d\n", numPrevCourses);  
+    printf("You entered: %d", numPrevCourses);  
 
-    int32_t *prevGrades = (int32_t*) malloc(sizeof(int)*(numPrevCourses+1));
+    int32_t *prevGrades = (int32_t*) malloc(sizeof(int)*numPrevCourses);
 
     for (int32_t courseIx = 0; courseIx < numPrevCourses; ++courseIx){
-        void* letterGrade;
-        printf("Enter letter grade for course # %d: ", (courseIx+1));
+        char letterGrade;
+        printf("\nEnter letter grade for course # %d: ", (courseIx+1));
         scanf(" %c" , &letterGrade);
 
-        int numGrade = convertCharToLetterGrade(&letterGrade);
-        prevGrades[courseIx] = numGrade;
+        convertCharToLetterGrade(&letterGrade);
+        prevGrades[courseIx] = letterGrade;
     }
     
     int32_t numExams;
@@ -103,6 +101,7 @@ int main()
         scanf(" %d", &gradeToEnter);
 
         examGrades[examIx] = gradeToEnter; 
+        printf("You entered: %d\n", examGrades[examIx]);
     }
 
     char fullName[40]; 
@@ -113,16 +112,10 @@ int main()
     const auto const_fullName = fullName;
 
     printf("\nGrade Report for %s \n", const_fullName);
+
     const auto examAverage = getArrayAverage(examGrades, numExams);
-    printf("Your exam average is: %.2f \n",  examAverage);
-    
 
-    // get GPA with newest course added:
-    const auto newLetterGrade = getLetterGradeFromAverage(examAverage);
-    prevGrades[numPrevCourses] = newLetterGrade;
-
-    const auto gpa = getArrayAverage(prevGrades, (numPrevCourses+1));
-    printf("Your latest GPA is: %.2f \n", gpa);
+    printf("Your latest GPA is: %.2f \n", examAverage);
 
     return 0;
 }
